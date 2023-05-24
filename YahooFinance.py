@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 url = "https://finance.yahoo.com/crypto/"
 
 class Crypto:
-    def __init__(self, symbol, name, price, change, percent_change, market_cap):
+    def __init__(self, symbol:str, name:str, price:str, change:str, percent_change:str, market_cap:str):
         self.symbol = symbol
         self.name = name
         self.price = price
@@ -13,7 +13,7 @@ class Crypto:
         self.market_cap = market_cap
 
 class Scraper:
-    def __init__(self, url):
+    def __init__(self, url:str):
         html = requests.get(url)
         soup = BeautifulSoup(html.content, "html.parser")
         self.all_cryptos = soup.find_all("tr", {"class": "simpTblRow"})
@@ -92,7 +92,8 @@ class Sorter:
                             cryptos_copy[j], cryptos_copy[j+1] = cryptos_copy[j+1], cryptos_copy[j]
             return cryptos_copy
         cryptos_copy = swapPrices()
-        Printer(cryptos_copy).print_cryptos()
+        N = int(input("Ingrese la cantidad de criptomonedas que desea ver: "))
+        Printer(cryptos_copy[:N]).print_cryptos()
     
     def ordenar_por_porcentaje(self):
         cryptos_copy = self.cryptos.copy()
@@ -104,7 +105,8 @@ class Sorter:
                         cryptos_copy[j], cryptos_copy[j+1] = cryptos_copy[j+1], cryptos_copy[j]
             return cryptos_copy
         cryptos_copy = swapPercentages()
-        Printer(cryptos_copy).print_cryptos()
+        N = int(input("Ingrese la cantidad de criptomonedas que desea ver: "))
+        Printer(cryptos_copy[:N]).print_cryptos()
 
 class Finder:
     def __init__(self, cryptos):
